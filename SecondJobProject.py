@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
+import time
 #bind - привязать
 
 def add_digit(digit):
@@ -70,10 +71,19 @@ def press_key(event):
     elif event.char == '\x08':
         calc.delete(0,tk.END)
         calc.insert(0,'0')
+
+def clock_time():
+    time_clock = time.strftime('%H:%M:%S')
+    date_clock = time.strftime('%d.%m.%Y')
+    clock_date['text'] = 'Date:',date_clock
+    clock['text']= 'Time:',time_clock
+    clock.after(200,clock_time)
+
 win = tk.Tk()
 win.title('Calculator')
+win.resizable(False,False)
 photo = tk.PhotoImage(file='images.png')
-win.geometry('320x300+740+280')
+win.geometry('475x300+740+280')
 win.iconphoto(False, photo)
 win.config(bg='#7ED2FC')
 win.bind('<Key>', press_key)
@@ -96,6 +106,12 @@ MakeOperationButton('*').grid(row=3, column=3, stick='wens', padx=5, pady=5)
 MakeOperationButton('/').grid(row=4, column=3, stick='wens', padx=5, pady=5)
 makeClacButton('=').grid(row=4, column=2, stick='wens', padx=5, pady=5)
 makeClearButton('c').grid(row=1, column=5, stick='wens', rowspan=4, padx=5, pady=5)
+clock = tk.Label(win, text='', font=('times',15,'bold'),relief=tk.RAISED,bd=5)
+clock.grid(row=0,column=7,stick='wens')
+clock_date = tk.Label(win, text='', font=('times',15,'bold'),bd=5, relief=tk.RAISED)
+clock_date.grid(row=4,column=7,stick='ns')
+tk.Label(win,text='',bd=5, relief=tk.RAISED).grid(row=1, column=7, stick='wens',rowspan=3)
+clock_time()
 win.grid_columnconfigure(0, minsize=70)
 win.grid_columnconfigure(1, minsize=70)
 win.grid_columnconfigure(2, minsize=70)
